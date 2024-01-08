@@ -2,7 +2,7 @@ taxonomy_levels = dict(zip(["d", "p", "c", "o", "f", "g", "s"], ["domain", "phyl
 
 
 class Node():
-    def __init__(self, name, zotu=None, tax_level=None, counts={}): # counts is dict van sample en hoeveelheid
+    def __init__(self, name, zotu=None, tax_level=None, counts={}): # counts is dict van sample en percentage
         self.name = name
         self.level = tax_level
         self.children = []
@@ -32,6 +32,7 @@ class Tree():
     def __init__(self):
         self.root = Node("root", "root")
         self.nodes = dict()
+        self.zotus = dict()
         self.nodes["root"] = self.root
 
     def add_lineages_file(self, file):
