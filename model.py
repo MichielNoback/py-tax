@@ -31,7 +31,7 @@ class SampleCounts():
 
 class Tree():
     def __init__(self):
-        self.root = Node("root", "root")
+        self.root = Node("root", tax_level="root")
         self.nodes = dict()
         self.zotus = dict()
         self.nodes["root"] = self.root
@@ -52,7 +52,7 @@ class Tree():
                 name = name + ' ' + parent.name
             
             if name not in self.nodes:
-                node = Node(name, taxonomy_levels[level])
+                node = Node(name, tax_level=taxonomy_levels[level])
                 parent.add_child(node)
                 node.parent = parent
                 parent = node

@@ -37,7 +37,13 @@ def process_counts(tree, normalized_counts, cutoff_percentage=1):
                     node.counts[sample] = node.counts[sample] + count
                     #print(f'\tname:{node.name}; zotus:{node.zotus}; count:{round(node.counts[sample], 2)}; parent:{parent.name}')
 
-    
+def get_counts(sample, tax_level):
+    print(f'counts for {sample} at level {tax_level}')
+    for node in tree.nodes.values():
+        #print(node.level)
+        if node.level == tax_level and sample in node.counts:
+            print(f'node {node.name} has count {node.counts[sample]}')
+
 if __name__ == "__main__":
     tree = Tree()
     tree.add_lineages_file('ASV_taxonomy_extra_small.txt')
@@ -52,4 +58,5 @@ if __name__ == "__main__":
 
     process_counts(tree, normalized_counts)
 
+    get_counts('S001P8292', 'phylum')
 
