@@ -16,9 +16,7 @@ def normalize_counts(counts_df):
 
 def process_counts(tree, normalized_counts, cutoff_percentage=1):
     for zotu in normalized_counts.index:
-        #print(zotu)
         for sample in normalized_counts:
-            #print(sample)
             # if sample != 'S001P8292':
             #     continue
             count = normalized_counts.loc[zotu, sample]
@@ -32,17 +30,21 @@ def process_counts(tree, normalized_counts, cutoff_percentage=1):
                 while parent.name != 'root':
                     node = parent
                     parent = node.parent
-                    #print('\t',node.counts)
                     node.counts.setdefault(sample, 0)
                     node.counts[sample] = node.counts[sample] + count
                     #print(f'\tname:{node.name}; zotus:{node.zotus}; count:{round(node.counts[sample], 2)}; parent:{parent.name}')
 
 def get_counts(sample, tax_level):
     print(f'counts for {sample} at level {tax_level}')
+    #sum = 0
+    counts = {}
     for node in tree.nodes.values():
-        #print(node.level)
         if node.level == tax_level and sample in node.counts:
-            print(f'node {node.name} has count {node.counts[sample]}')
+            #sum += node.counts[sample]
+            counts[node.name] = node.counts[sample]
+            #print(f'node {node.name} has count {node.counts[sample]}')
+    #print(sum)
+    return counts
 
 if __name__ == "__main__":
     tree = Tree()
@@ -58,5 +60,5 @@ if __name__ == "__main__":
 
     process_counts(tree, normalized_counts)
 
-    get_counts('S001P8292', 'phylum')
-
+    counts = get_counts('S002P8292', 'phylum')
+    print(counts)
