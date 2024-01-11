@@ -2,11 +2,12 @@ taxonomy_levels = dict(zip(["d", "p", "c", "o", "f", "g", "s"], ["domain", "phyl
 
 
 class Node():
-    def __init__(self, name, zotu=None, tax_level=None, counts={}): # counts is dict van sample en percentage
+    def __init__(self, name, zotu=None, tax_level=None): # counts is dict van sample en percentage
         self.name = name
         self.level = tax_level
         self.children = []
         self.parent = None
+        self.counts = dict()
         self.zotus = []
 
     def add_child(self, child):
@@ -59,7 +60,8 @@ class Tree():
             else:
                 parent = self.nodes[name]
         #last node gets zotu annotated
-        self.nodes[name].zotus.append(zotu)    
+        self.nodes[name].zotus.append(zotu)
+        self.zotus[zotu] = node
 
     def get_counts(self, tax_level, samples):
         #iterate tree

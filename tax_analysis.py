@@ -14,15 +14,42 @@ def normalize_counts(counts_df):
 
     return normalized_counts
 
+def process_counts(tree, normalized_counts, cutoff_percentage=1):
+    for zotu in normalized_counts.index:
+        #print(zotu)
+        for sample in normalized_counts:
+            #print(sample)
+            # if sample != 'S001P8292':
+            #     continue
+            count = normalized_counts.loc[zotu, sample]
+            if count < cutoff_percentage:
+                continue
+            else:
+                node = tree.zotus[zotu]
+                node.counts[sample] = count
+                parent = node.parent
+                #print(f'zotu:{zotu}; sample={sample}; name:{node.name}; zotus:{node.zotus}; parent:{parent.name}; count:{round(node.counts[sample], 2)}')
+                while parent.name != 'root':
+                    node = parent
+                    parent = node.parent
+                    #print('\t',node.counts)
+                    node.counts.setdefault(sample, 0)
+                    node.counts[sample] = node.counts[sample] + count
+                    #print(f'\tname:{node.name}; zotus:{node.zotus}; count:{round(node.counts[sample], 2)}; parent:{parent.name}')
 
+    
 if __name__ == "__main__":
     tree = Tree()
     tree.add_lineages_file('ASV_taxonomy_extra_small.txt')
     #print(str(tree))
+    # for zotu in tree.zotus:
+    #     print(f'zotu:{zotu}; name:{tree.zotus[zotu].name}; zotus:{tree.zotus[zotu].zotus}')
 
     counts_file = "ASV_counts_extra_small.tsv"
     counts_df = load_count_data(counts_file)
     normalized_counts = normalize_counts(counts_df)
-    print(normalized_counts)
+    #print(normalized_counts)
+
+    process_counts(tree, normalized_counts)
 
 
