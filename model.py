@@ -2,7 +2,7 @@ taxonomy_levels = dict(zip(["d", "p", "c", "o", "f", "g", "s"], ["domain", "phyl
 
 
 class Node():
-    def __init__(self, name, zotu=None, tax_level=None): # counts is dict van sample en percentage
+    def __init__(self, name, tax_level=None): 
         self.name = name
         self.level = tax_level
         self.children = []
